@@ -44,9 +44,19 @@ scene.add(tube);
 const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
 scene.add(hemiLight);
 
-function animate() {
-  requestAnimationFrame(animate);
+function updateCamera(t) {
+  const time = t * 0.25;
+  const looptime = 20 * 1000;
+  const p = (time % looptime) / looptime;
+  const pos = tubeGeo.parameters.path.getPointAt(p);
+  const lookAt = tubeGeo.parameters.path.getPointAt((p + 0.01) % 1);
+  camera.position.copy(pos);
+  camera.lookAt(lookAt);
+}
 
+function animate(t = 0) {
+  requestAnimationFrame(animate);
+  updateCamera(t);
   renderer.render(scene, camera);
   controls.update();
 }
