@@ -22,15 +22,24 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.005;
 const detail = 24;
 
-// line geo
-
+// line by spline
 const points = spline.getPoints(100);
 const geometry = new THREE.BufferGeometry().setFromPoints(points);
 const material = new THREE.LineBasicMaterial({
   color: 0x00ff00,
 });
 const line = new THREE.Line(geometry, material);
-scene.add(line);
+// scene.add(line);
+
+// tube by spline
+const tubeGeo = new THREE.TubeGeometry(spline, 222, 0.65, 16, true);
+const tubeMat = new THREE.MeshStandardMaterial({
+  color: 0x0099ff,
+  // side: THREE.DoubleSide,
+  wireframe: true,
+});
+const tube = new THREE.Mesh(tubeGeo, tubeMat);
+scene.add(tube);
 
 const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
 scene.add(hemiLight);
