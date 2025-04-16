@@ -17,6 +17,8 @@ camera.position.z = 3;
 
 const scene = new THREE.Scene();
 
+scene.fog = new THREE.FogExp2(0x000000, 0.4);
+
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.005;
@@ -33,20 +35,24 @@ const line = new THREE.Line(geometry, material);
 
 // tube by spline
 const tubeGeo = new THREE.TubeGeometry(spline, 222, 0.65, 16, true);
-const tubeMat = new THREE.MeshStandardMaterial({
+const tubeMat = new THREE.MeshBasicMaterial({
   color: 0x0099ff,
   // side: THREE.DoubleSide,
   wireframe: true,
 });
 const tube = new THREE.Mesh(tubeGeo, tubeMat);
-scene.add(tube);
+// scene.add(tube);
 
-const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
-scene.add(hemiLight);
+// create edges
+
+const edges = new THREE.EdgesGeometry(tubeGeo, 0.2);
+const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff });
+const tubeLines = new THREE.LineSegments(edges, lineMat);
+scene.add(tubeLines);
 
 function updateCamera(t) {
-  const time = t * 0.25;
-  const looptime = 20 * 1000;
+  const time = t * 0.1;
+  const looptime = 8 * 1000;
   const p = (time % looptime) / looptime;
   const pos = tubeGeo.parameters.path.getPointAt(p);
   const lookAt = tubeGeo.parameters.path.getPointAt((p + 0.01) % 1);
