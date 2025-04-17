@@ -44,11 +44,40 @@ const tube = new THREE.Mesh(tubeGeo, tubeMat);
 // scene.add(tube);
 
 // create edges
-
 const edges = new THREE.EdgesGeometry(tubeGeo, 0.2);
 const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff });
 const tubeLines = new THREE.LineSegments(edges, lineMat);
 scene.add(tubeLines);
+
+// add boxes
+const numBoxes = 150;
+const size = 0.075;
+const boxGeo = new THREE.BoxGeometry(size, size, size);
+for (let i = 0; i < numBoxes; i++) {
+  const boxMat = new THREE.MeshBasicMaterial({
+    color: getRandomColor(),
+    wireframe: true,
+  });
+  const box = new THREE.Mesh(boxGeo, boxMat);
+  const p = (i / numBoxes + Math.random() * 0.1) % 1;
+  const pos = tubeGeo.parameters.path.getPointAt(p);
+  pos.x += Math.random() - 0.4;
+  pos.y += Math.random() - 0.4;
+  box.position.copy(pos);
+  const rote = new THREE.Vector3(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+  box.rotation.set(rote.x, rote.y, rote.z);
+  scene.add(box);
+}
+
+function getRandomColor() {
+  const variants = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'f'];
+  const color = [0, 'x'];
+  for (let i = 0; i < 6; i++) {
+    const key = Math.floor(Math.random() * 15);
+    color.push(variants[key]);
+  }
+  return parseInt(color.join(''), 16);
+}
 
 function updateCamera(t) {
   const time = t * 0.1;
