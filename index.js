@@ -54,19 +54,25 @@ const numBoxes = 150;
 const size = 0.075;
 const boxGeo = new THREE.BoxGeometry(size, size, size);
 for (let i = 0; i < numBoxes; i++) {
-  const boxMat = new THREE.MeshBasicMaterial({
-    color: getRandomColor(),
-    wireframe: true,
-  });
-  const box = new THREE.Mesh(boxGeo, boxMat);
+  // const boxMat = new THREE.MeshBasicMaterial({
+  //   color: getRandomColor(),
+  //   wireframe: true,
+  // });
+  // const box = new THREE.Mesh(boxGeo, boxMat);
   const p = (i / numBoxes + Math.random() * 0.1) % 1;
   const pos = tubeGeo.parameters.path.getPointAt(p);
   pos.x += Math.random() - 0.4;
   pos.y += Math.random() - 0.4;
-  box.position.copy(pos);
+  // box.position.copy(pos);
   const rote = new THREE.Vector3(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
-  box.rotation.set(rote.x, rote.y, rote.z);
-  scene.add(box);
+  // box.rotation.set(rote.x, rote.y, rote.z);
+  // scene.add(box);
+  const edges = new THREE.EdgesGeometry(boxGeo, 0.2);
+  const lineMat = new THREE.LineBasicMaterial({ color: getRandomColor() });
+  const boxLines = new THREE.LineSegments(edges, lineMat);
+  boxLines.position.copy(pos);
+  boxLines.rotation.set(rote.x, rote.y, rote.z);
+  scene.add(boxLines);
 }
 
 function getRandomColor() {
