@@ -1,14 +1,15 @@
 import * as THREE from 'three';
-import spline from './spline.js';
+import spline from './utility/spline.js';
 import { OrbitControls } from 'jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'jsm/postprocessing/UnrealBloomPass.js';
 
-export function createScene() {
+export function createScene({ width, height } = {}) {
   // renderer
-  const w = window.innerWidth;
-  const h = window.innerHeight;
+  console.log(width, height);
+  const w = width || window.innerWidth;
+  const h = height || window.innerHeight;
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
 
@@ -100,5 +101,12 @@ export function createScene() {
 
   animate();
 
-  return renderer.domElement;
+  return {
+    canvas: renderer.domElement,
+    updateSize: (newWidth, newHeight) => {
+      renderer.setSize(newWidth, newHeight);
+      camera.aspect = newWidth / newHeight;
+      camera.updateProjectionMatrix();
+    },
+  };
 }
