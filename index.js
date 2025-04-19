@@ -7,10 +7,8 @@ let sceneControls;
 
 requestAnimationFrame(() => {
   const section = document.querySelector('main > section');
-  console.log(section);
   const width = section.clientWidth;
   const height = section.clientHeight;
-  console.log(width, height);
   import('./scene.js')
     .then(({ createScene }) => {
       const { canvas, updateSize } = createScene({ width, height });
