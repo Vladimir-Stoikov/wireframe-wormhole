@@ -18,7 +18,74 @@
   <body>
     <main id="main">
       <section id="canvas" class="canvas"></section>
-      <nav id="navbar" class="navbar"></nav>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li>
+            <h2>Tube settings</h2>
+            <div>
+              <label for="tube">Choose a type:</label>
+              <select name="tube" id="tube">
+                <option value="default">Default</option>
+                <option value="solid">solid</option>
+                <option value="none">none</option>
+                <option value="mesh">mesh</option>
+              </select>
+            </div>
+            <div>
+              <label for="tube-color">Choose a color:</label>
+              <select name="tube-color" id="tube-color">
+                <option value="random">Random</option>
+                <option value="solid">solid</option>
+                <option value="none">none</option>
+                <option value="mesh">mesh</option>
+              </select>
+            </div>
+            <div>
+              <label for="scale">Mesh scale</label>
+              <input type="range" id="scale" name="scale" min="0" max="5" />
+            </div>
+            <input type="submit" value="Apply" />
+          </li>
+          <li>
+            <h2>Elems settings</h2>
+            <div>
+              <label for="elem">Choose a type:</label>
+              <select name="elem" id="elem">
+                <option value="default">Default</option>
+                <option value="solid">solid</option>
+                <option value="none">none</option>
+                <option value="mesh">mesh</option>
+              </select>
+            </div>
+              <label for="elems-color">Choose a color:</label>
+              <select name="elems-color" id="elems-color">
+                <option value="random">Random</option>
+                <option value="solid">solid</option>
+                <option value="none">none</option>
+                <option value="mesh">mesh</option>
+              </select>
+            </div>
+            <div>
+              <label for="elems-count">Count</label>
+              <input type="range" id="elems-count" name="elems-count" min="0" max="5" />
+            </div>
+          </li>
+          <li>
+            <h2>Camera settings</h2>
+            <p>Speed</p>
+            <div>
+              <button>◃</button>
+              <span>Value</span>
+              <button>▹</button>
+            </div>
+            <button>reverse</button>
+            <div>
+              <label for="position">Position</label>
+              <input type="range" id="position" name="position" min="0" max="5" />
+            </div>
+          </li>
+        </ul>
+      </nav>
     </main>
   </body>
 </html>

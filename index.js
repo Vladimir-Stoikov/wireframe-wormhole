@@ -10,6 +10,7 @@ requestAnimationFrame(() => {
   console.log(section);
   const width = section.clientWidth;
   const height = section.clientHeight;
+  console.log(width, height);
   import('./scene.js')
     .then(({ createScene }) => {
       const { canvas, updateSize } = createScene({ width, height });
@@ -21,6 +22,7 @@ requestAnimationFrame(() => {
 
 const resizeObserver = new ResizeObserver(entries => {
   const { width, height } = entries[0].contentRect;
+  console.log(width, height);
   if (sceneControls) {
     sceneControls.updateSize(width, height);
   }

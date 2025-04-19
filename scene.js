@@ -7,7 +7,6 @@ import { UnrealBloomPass } from 'jsm/postprocessing/UnrealBloomPass.js';
 
 export function createScene({ width, height } = {}) {
   // renderer
-  console.log(width, height);
   const w = width || window.innerWidth;
   const h = height || window.innerHeight;
   const renderer = new THREE.WebGLRenderer({ antialias: true });

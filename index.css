@@ -2,6 +2,8 @@
 
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 body {
@@ -19,10 +21,45 @@ main {
   display: flex;
   width: 100vw;
   height: 100vh;
+  padding: 3%;
 }
 
 .canvas {
-  flex: 1;
-  position: relative;
+  display: flex;
+  width: 80%;  /* Или 50%, если нужно */
+  height: 100%; /* Или 50% */
+  border-radius: 20px;
+  overflow: hidden;  
 }
 
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    height: 100%;
+    width: 20%;
+}
+
+.navbar > ul {
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+}
+
+.navbar > ul > li {
+  list-style-type: none;
+  height: 33.3%;
+  width: 100%;
+  border: 5px solid black;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+
+.navbar > ul > li:last-child {
+  margin-bottom: 0;
+}
