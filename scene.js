@@ -4,6 +4,7 @@ import { OrbitControls } from 'jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'jsm/postprocessing/UnrealBloomPass.js';
+import getRandomColor from './utility/getRandomColor.js';
 
 export function createScene({ width, height } = {}) {
   // renderer
@@ -42,12 +43,15 @@ export function createScene({ width, height } = {}) {
   // fog effect
   scene.fog = new THREE.FogExp2(0x000000, 0.4);
 
-  // edges for tube
-  const tubeGeo = new THREE.TubeGeometry(spline, 222, 0.65, 16, true);
-  const edges = new THREE.EdgesGeometry(tubeGeo, 0.2);
-  const lineMat = new THREE.LineBasicMaterial({ color: getRandomColor() });
-  const tubeLines = new THREE.LineSegments(edges, lineMat);
-  scene.add(tubeLines);
+  // TUBE SETUP
+  let tubeLines = null;
+  let tubeGeo = null;
+  let tubeParams = {
+    type: null,
+    color: getRandomColor(),
+    scale: 3,
+  };
+  createTube(tubeParams);
 
   // add boxes
   const numBoxes = 150;
@@ -69,16 +73,18 @@ export function createScene({ width, height } = {}) {
     scene.add(boxLines);
   }
 
-  // random color
-
-  function getRandomColor() {
-    const variants = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'f'];
-    const color = [0, 'x'];
-    for (let i = 0; i < 6; i++) {
-      const key = Math.floor(Math.random() * 15);
-      color.push(variants[key]);
+  function createTube({ type, color, scale }) {
+    console.log(type);
+    if (tubeLines) {
+      scene.remove(tubeLines);
+      tubeLines.geometry.dispose();
+      tubeLines.material.dispose();
     }
-    return parseInt(color.join(''), 16);
+    tubeGeo = new THREE.TubeGeometry(spline, scale * 80, 0.65, scale * 10, true);
+    const edges = new THREE.EdgesGeometry(tubeGeo, 0.2);
+    const lineMat = new THREE.LineBasicMaterial({ color: color });
+    tubeLines = new THREE.LineSegments(edges, lineMat);
+    scene.add(tubeLines);
   }
 
   function updateCamera(t) {
@@ -106,6 +112,14 @@ export function createScene({ width, height } = {}) {
       renderer.setSize(newWidth, newHeight);
       camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
+    },
+    updateTube: (type, color, scale) => {
+      tubeParams = {
+        type: type,
+        color: color,
+        scale: scale,
+      };
+      createTube(tubeParams);
     },
   };
 }

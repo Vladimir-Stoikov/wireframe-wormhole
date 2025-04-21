@@ -21,10 +21,11 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li>
+            <!-- TUBE SETTINGS NAV SECTION -->
             <h2>Tube settings</h2>
             <div>
-              <label for="tube">Choose a type:</label>
-              <select name="tube" id="tube">
+              <label for="tube-drop-list">Choose a type:</label>
+              <select name="tube-drop-list" id="tube-drop-list">
                 <option value="default">Default</option>
                 <option value="solid">solid</option>
                 <option value="none">none</option>
@@ -41,16 +42,17 @@
               </select>
             </div>
             <div>
-              <label for="scale">Mesh scale</label>
-              <input type="range" id="scale" name="scale" min="0" max="5" />
+              <label for="tube-scale">Mesh scale</label>
+              <input type="range" id="tube-scale" name="tube-scale" min="1" max="4" />
             </div>
-            <input type="submit" value="Apply" />
           </li>
           <li>
+
+            <!-- ELEMS SETTINGS NAV SECTION -->
             <h2>Elems settings</h2>
             <div>
-              <label for="elem">Choose a type:</label>
-              <select name="elem" id="elem">
+              <label for="elems-drop-list">Choose a type:</label>
+              <select name="elems-drop-list" id="elems-drop-list">
                 <option value="default">Default</option>
                 <option value="solid">solid</option>
                 <option value="none">none</option>
@@ -66,11 +68,13 @@
               </select>
             </div>
             <div>
-              <label for="elems-count">Count</label>
-              <input type="range" id="elems-count" name="elems-count" min="0" max="5" />
+              <label for="elems-scale">Count</label>
+              <input type="range" id="elems-scale" name="elems-scale" min="0" max="5" />
             </div>
           </li>
           <li>
+
+            <!-- CAMERA SETTINGS NAV SECTION -->
             <h2>Camera settings</h2>
             <p>Speed</p>
             <div>
