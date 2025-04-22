@@ -113,7 +113,8 @@ export function createScene({ width, height } = {}) {
       camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
     },
-    updateTube: (type, color, scale) => {
+    updateTube: ({ type, color, scale }) => {
+      if (!color) color = tubeParams.color;
       tubeParams = {
         type: type,
         color: color,

@@ -38,24 +38,31 @@ const tubeColor = document.getElementById('tube-color');
 const tubeScale = document.getElementById('tube-scale');
 let tubeParams = {
   type: null,
-  color: getRandomColor(),
+  color: null,
   scale: 3,
 };
 
 tubeDropList.addEventListener('change', e => {
   tubeParams.type = e.target.value;
-  sceneControls.updateTube(null, null, e.target.value);
+  sceneControls.updateTube(tubeParams);
   console.log(tubeParams);
 });
 
 tubeColor.addEventListener('change', e => {
-  tubeParams.color = e.target.value;
-  sceneControls.updateTube(null, null, e.target.value);
+  const colors = {
+    random: getRandomColor(),
+    red: 0xff0000,
+    green: 0x00ff00,
+    white: 0x0000ff,
+  };
+  console.log(colors[e.target.value]);
+  tubeParams.color = colors[e.target.value];
+  sceneControls.updateTube(tubeParams);
   console.log(tubeParams);
 });
 
 tubeScale.addEventListener('change', e => {
   tubeParams.scale = e.target.value;
-  sceneControls.updateTube(null, null, e.target.value);
+  sceneControls.updateTube(tubeParams);
   console.log(tubeParams);
 });
