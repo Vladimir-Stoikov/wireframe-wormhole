@@ -13,9 +13,9 @@ requestAnimationFrame(() => {
   const height = section.clientHeight;
   import('./scene.js')
     .then(({ createScene }) => {
-      const { canvas, updateSize, updateTube } = createScene({ width, height });
+      const { canvas, updateSize, updateTube, updateElems } = createScene({ width, height });
       canvasSection.appendChild(canvas);
-      sceneControls = { updateSize, updateTube };
+      sceneControls = { updateSize, updateTube, updateElems };
     })
     .catch(console.error);
 });
@@ -29,7 +29,7 @@ const resizeObserver = new ResizeObserver(entries => {
 
 resizeObserver.observe(canvasSection);
 
-// NAVBAR SETTINGS
+// NAVBAR SETTINGS -----------------
 
 // TUBE SETTINGS
 
@@ -65,4 +65,41 @@ tubeScale.addEventListener('change', e => {
   tubeParams.scale = e.target.value;
   sceneControls.updateTube(tubeParams);
   console.log(tubeParams);
+});
+
+// TUBE SETTINGS
+
+const elemsDropList = document.getElementById('elems-drop-list');
+const elemsColor = document.getElementById('elems-color');
+const elemsCount = document.getElementById('elems-count');
+
+let elemsParams = {
+  type: null,
+  color: null,
+  count: 150,
+};
+
+elemsDropList.addEventListener('change', e => {
+  elemsParams.type = e.target.value;
+  sceneControls.updateElems(elemsParams);
+  console.log(elemsParams);
+});
+
+elemsColor.addEventListener('change', e => {
+  const colors = {
+    random: 'random',
+    red: 0xff0000,
+    blue: 0x00aaff,
+    white: 0xffffff,
+  };
+  console.log(colors[e.target.value]);
+  elemsParams.color = colors[e.target.value];
+  sceneControls.updateElems(elemsParams);
+  console.log(elemsParams);
+});
+
+elemsCount.addEventListener('change', e => {
+  elemsParams.count = e.target.value;
+  sceneControls.updateElems(elemsParams);
+  console.log(elemsParams);
 });
