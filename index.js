@@ -33,7 +33,7 @@ resizeObserver.observe(canvasSection);
 
 // TUBE SETTINGS
 
-const tubeDropList = document.getElementById('tube-drop-list');
+const tubeType = document.getElementById('tube-type');
 const tubeColor = document.getElementById('tube-color');
 const tubeScale = document.getElementById('tube-scale');
 let tubeParams = {
@@ -42,7 +42,7 @@ let tubeParams = {
   scale: 3,
 };
 
-tubeDropList.addEventListener('change', e => {
+tubeType.addEventListener('change', e => {
   tubeParams.type = e.target.value;
   sceneControls.updateTube(tubeParams);
   console.log(tubeParams);
@@ -67,7 +67,7 @@ tubeScale.addEventListener('change', e => {
   console.log(tubeParams);
 });
 
-// TUBE SETTINGS
+// BOX SETTINGS
 
 const elemsDropList = document.getElementById('elems-drop-list');
 const elemsColor = document.getElementById('elems-color');

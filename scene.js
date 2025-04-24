@@ -43,11 +43,24 @@ export function createScene({ width, height } = {}) {
   // fog effect
   scene.fog = new THREE.FogExp2(0x000000, 0.4);
 
+  // Создаем SpotLight (как фонарик)
+  const cameraLight = new THREE.SpotLight(
+    0xffeedd, // Цвет (теплый белый)
+    2, // Интенсивность
+    30, // Расстояние
+    Math.PI / 4, // Угол раскрытия
+    0.5, // Плавность краев
+    1 // Коэффициент затухания
+  );
+  camera.add(cameraLight); // Важно: добавляем свет К КАМЕРЕ
+  cameraLight.position.set(0, 0, -3); // Смещаем немного назад
+  scene.add(camera); // Если камера еще не в сцене
+
   // TUBE SETUP
   let tubeLines = null;
   let tubeGeo = null;
   let tubeParams = {
-    type: null,
+    type: 'solid',
     color: getRandomColor(),
     scale: 3,
   };
@@ -71,10 +84,27 @@ export function createScene({ width, height } = {}) {
       tubeLines.material.dispose();
     }
     tubeGeo = new THREE.TubeGeometry(spline, scale * 80, 0.65, scale * 10, true);
-    const edges = new THREE.EdgesGeometry(tubeGeo, 0.2);
-    const lineMat = new THREE.LineBasicMaterial({ color: color });
-    tubeLines = new THREE.LineSegments(edges, lineMat);
-    scene.add(tubeLines);
+    let tubeMat;
+    switch (type) {
+      case 'solid':
+        tubeMat = new THREE.MeshStandardMaterial({
+          color: 0x999999,
+          metalness: 0.1,
+          roughness: 0.2,
+          side: THREE.DoubleSide,
+        });
+        tubeLines = new THREE.Mesh(tubeGeo, tubeMat);
+        scene.add(tubeLines);
+        break;
+      default:
+        const edges = new THREE.EdgesGeometry(tubeGeo, 0.2);
+        tubeMat = new THREE.LineBasicMaterial({ color: color });
+        tubeLines = new THREE.LineSegments(edges, tubeMat);
+        scene.add(tubeLines);
+        break;
+    }
+    // tubeLines = new THREE.LineSegments(edges, tubeMat);
+    // scene.add(tubeLines);
   }
 
   function createElems({ type, color, count }) {
