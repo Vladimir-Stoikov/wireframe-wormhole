@@ -44,16 +44,11 @@ export function createScene({ width, height } = {}) {
   scene.fog = new THREE.FogExp2(0x000000, 0.4);
 
   // Создаем SpotLight (как фонарик)
-  const cameraLight = new THREE.SpotLight(
-    0xffeedd, // Цвет (теплый белый)
-    2, // Интенсивность
-    30, // Расстояние
-    Math.PI / 4, // Угол раскрытия
-    0.5, // Плавность краев
-    1 // Коэффициент затухания
-  );
-  camera.add(cameraLight); // Важно: добавляем свет К КАМЕРЕ
-  cameraLight.position.set(0, 0, -3); // Смещаем немного назад
+  const cameraLight = new THREE.PointLight(0xffeedd, 0.7, 0);
+  camera.add(cameraLight);
+  // cameraLight.position.set(0, 0, -2);
+  // camera.add(cameraLight); // Важно: добавляем свет К КАМЕРЕ
+  cameraLight.position.set(0, 0, 0); // Смещаем немного назад
   scene.add(camera); // Если камера еще не в сцене
 
   // TUBE SETUP
