@@ -71,36 +71,41 @@ export function createScene({ width, height } = {}) {
   };
   createElems(elemsParams);
 
+  // CREATE TUBE FUNCTION
+
   function createTube({ type, color, scale }) {
-    console.log(type);
     if (tubeLines) {
       scene.remove(tubeLines);
-      tubeLines.geometry.dispose();
-      tubeLines.material.dispose();
+      if (tubeLines.geometry) tubeLines.geometry.dispose();
+      if (tubeLines.material) {
+        if (Array.isArray(tubeLines.material)) {
+          tubeLines.material.forEach(tubeMatEl => tubeMatEl.dispose());
+        } else tubeLines.material.dispose();
+      }
     }
     tubeGeo = new THREE.TubeGeometry(spline, scale * 80, 0.65, scale * 10, true);
     let tubeMat;
     switch (type) {
       case 'solid':
         tubeMat = new THREE.MeshStandardMaterial({
-          color: 0x999999,
-          metalness: 0.1,
-          roughness: 0.2,
+          color: color,
+          metalness: 0.4,
+          roughness: 0.1,
           side: THREE.DoubleSide,
         });
         tubeLines = new THREE.Mesh(tubeGeo, tubeMat);
-        scene.add(tubeLines);
         break;
+      case 'default':
       default:
         const edges = new THREE.EdgesGeometry(tubeGeo, 0.2);
         tubeMat = new THREE.LineBasicMaterial({ color: color });
         tubeLines = new THREE.LineSegments(edges, tubeMat);
-        scene.add(tubeLines);
         break;
     }
-    // tubeLines = new THREE.LineSegments(edges, tubeMat);
-    // scene.add(tubeLines);
+    scene.add(tubeLines);
   }
+
+  // CREATE BOXES FUNCTION
 
   function createElems({ type, color, count }) {
     if (boxLines.length > 0) {
@@ -111,8 +116,6 @@ export function createScene({ width, height } = {}) {
       });
       boxLines = [];
     }
-    console.log(count);
-    console.log(color);
     const numBoxes = count;
     const size = 0.075;
     const boxGeo = new THREE.BoxGeometry(size, size, size);
@@ -124,9 +127,29 @@ export function createScene({ width, height } = {}) {
       pos.y += Math.random() - 0.4;
       const rote = new THREE.Vector3(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
 
-      const edges = new THREE.EdgesGeometry(boxGeo, 0.2);
-      const lineMat = new THREE.LineBasicMaterial({ color: color === 'random' ? getRandomColor() : color });
-      boxLines.push(new THREE.LineSegments(edges, lineMat));
+      let element;
+      let elemMat;
+      const elemColor = (color = color === 'random' ? getRandomColor() : color);
+
+      switch (type) {
+        case 'solid':
+          elemMat = new THREE.MeshStandardMaterial({
+            color: elemColor,
+            metalness: 0.4,
+            roughness: 0.1,
+            side: THREE.DoubleSide,
+          });
+          element = new THREE.Mesh(boxGeo, elemMat);
+          break;
+        case 'mesh':
+        default:
+          const edges = new THREE.EdgesGeometry(boxGeo, 0.2);
+          elemMat = new THREE.LineBasicMaterial({ color: elemColor });
+          element = new THREE.LineSegments(edges, elemMat);
+          break;
+      }
+
+      boxLines.push(element);
       boxLines[i].position.copy(pos);
       boxLines[i].rotation.set(rote.x, rote.y, rote.z);
     }
@@ -160,6 +183,7 @@ export function createScene({ width, height } = {}) {
       camera.updateProjectionMatrix();
     },
     updateTube: ({ type, color, scale }) => {
+      if (!type) type = tubeParams.type;
       if (!color) color = tubeParams.color;
       tubeParams = {
         type: type,

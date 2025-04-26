@@ -45,7 +45,6 @@ let tubeParams = {
 tubeType.addEventListener('change', e => {
   tubeParams.type = e.target.value;
   sceneControls.updateTube(tubeParams);
-  console.log(tubeParams);
 });
 
 tubeColor.addEventListener('change', e => {
@@ -53,18 +52,15 @@ tubeColor.addEventListener('change', e => {
     random: getRandomColor(),
     red: 0xff0000,
     green: 0x00ff00,
-    white: 0x0000ff,
+    white: 0xaaaaaaa,
   };
-  console.log(colors[e.target.value]);
   tubeParams.color = colors[e.target.value];
   sceneControls.updateTube(tubeParams);
-  console.log(tubeParams);
 });
 
 tubeScale.addEventListener('change', e => {
   tubeParams.scale = e.target.value;
   sceneControls.updateTube(tubeParams);
-  console.log(tubeParams);
 });
 
 // BOX SETTINGS
@@ -82,7 +78,6 @@ let elemsParams = {
 elemsDropList.addEventListener('change', e => {
   elemsParams.type = e.target.value;
   sceneControls.updateElems(elemsParams);
-  console.log(elemsParams);
 });
 
 elemsColor.addEventListener('change', e => {
@@ -92,14 +87,11 @@ elemsColor.addEventListener('change', e => {
     blue: 0x00aaff,
     white: 0xffffff,
   };
-  console.log(colors[e.target.value]);
   elemsParams.color = colors[e.target.value];
   sceneControls.updateElems(elemsParams);
-  console.log(elemsParams);
 });
 
 elemsCount.addEventListener('change', e => {
   elemsParams.count = e.target.value;
   sceneControls.updateElems(elemsParams);
-  console.log(elemsParams);
 });
