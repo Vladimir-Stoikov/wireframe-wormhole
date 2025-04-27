@@ -129,7 +129,7 @@ export function createScene({ width, height } = {}) {
 
       let element;
       let elemMat;
-      const elemColor = (color = color === 'random' ? getRandomColor() : color);
+      const elemColor = color === 'random' ? getRandomColor() : color;
 
       switch (type) {
         case 'solid':
