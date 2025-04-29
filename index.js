@@ -13,9 +13,9 @@ requestAnimationFrame(() => {
   const height = section.clientHeight;
   import('./scene.js')
     .then(({ createScene }) => {
-      const { canvas, updateSize, updateTube, updateElems } = createScene({ width, height });
+      const { canvas, updateSize, updateTube, updateElems, updateCamera } = createScene({ width, height });
       canvasSection.appendChild(canvas);
-      sceneControls = { updateSize, updateTube, updateElems };
+      sceneControls = { updateSize, updateTube, updateElems, updateCamera };
     })
     .catch(console.error);
 });
@@ -94,4 +94,30 @@ elemsColor.addEventListener('change', e => {
 elemsCount.addEventListener('change', e => {
   elemsParams.count = e.target.value;
   sceneControls.updateElems(elemsParams);
+});
+
+// CAMERA SETTINGS
+
+const speedUpBtn = document.getElementById('camera-speed-up');
+const speedDownBtn = document.getElementById('camera-speed-down');
+const cameraParams = {
+  currentSpeed: 1000,
+};
+
+speedUpBtn.addEventListener('click', () => {
+  if (cameraParams.currentSpeed > 100) {
+    cameraParams.currentSpeed -= 100;
+    sceneControls.updateCamera(cameraParams.currentSpeed);
+  } else {
+    console.log('max speed');
+  }
+});
+
+speedDownBtn.addEventListener('click', () => {
+  if (cameraParams.currentSpeed < 2000) {
+    cameraParams.currentSpeed += 100;
+    sceneControls.updateCamera(cameraParams.currentSpeed);
+  } else {
+    console.log('lowest speed');
+  }
 });

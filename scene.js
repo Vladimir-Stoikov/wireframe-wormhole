@@ -43,19 +43,18 @@ export function createScene({ width, height } = {}) {
   // fog effect
   scene.fog = new THREE.FogExp2(0x000000, 0.4);
 
-  // Создаем SpotLight (как фонарик)
+  // CAMERA LIGHT
+
   const cameraLight = new THREE.PointLight(0xffeedd, 0.7, 0);
   camera.add(cameraLight);
-  // cameraLight.position.set(0, 0, -2);
-  // camera.add(cameraLight); // Важно: добавляем свет К КАМЕРЕ
-  cameraLight.position.set(0, 0, 0); // Смещаем немного назад
-  scene.add(camera); // Если камера еще не в сцене
+  cameraLight.position.set(0, 0, 0);
+  scene.add(camera);
 
   // TUBE SETUP
   let tubeLines = null;
   let tubeGeo = null;
   let tubeParams = {
-    type: 'solid',
+    type: 'mesh',
     color: getRandomColor(),
     scale: 3,
   };
@@ -156,9 +155,13 @@ export function createScene({ width, height } = {}) {
     boxLines.forEach(box => scene.add(box));
   }
 
-  function updateCamera(t) {
+  // CREATE CAMERA
+
+  let cameraSpeed = 1000;
+
+  function createCamera(t) {
     const time = t * 0.1;
-    const looptime = 8 * 1000;
+    const looptime = 8 * cameraSpeed;
     const p = (time % looptime) / looptime;
     const pos = tubeGeo.parameters.path.getPointAt(p);
     const lookAt = tubeGeo.parameters.path.getPointAt((p + 0.01) % 1);
@@ -168,7 +171,7 @@ export function createScene({ width, height } = {}) {
 
   function animate(t = 0) {
     requestAnimationFrame(animate);
-    updateCamera(t);
+    createCamera(t);
     composer.render(scene, camera);
     controls.update();
   }
@@ -200,6 +203,9 @@ export function createScene({ width, height } = {}) {
         count: count,
       };
       createElems(elemsParams);
+    },
+    updateCamera: newSpeed => {
+      cameraSpeed = newSpeed;
     },
   };
 }
