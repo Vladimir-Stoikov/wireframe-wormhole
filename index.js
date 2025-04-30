@@ -100,13 +100,39 @@ elemsCount.addEventListener('change', e => {
 
 const speedUpBtn = document.getElementById('camera-speed-up');
 const speedDownBtn = document.getElementById('camera-speed-down');
+const cameraSpeedValue = document.getElementById('camera-speed-value');
 const cameraParams = {
   currentSpeed: 1000,
+};
+
+const speedValues = {
+  2000: 'slowed x 2',
+  1900: 'slowed x 1.9',
+  1800: 'slowed x 1.8',
+  1700: 'slowed x 1.7',
+  1600: 'slowed x 1.6',
+  1500: 'slowed x 1.5',
+  1400: 'slowed x 1.4',
+  1300: 'slowed x 1.3',
+  1200: 'slowed x 1.2',
+  1100: 'slowed x 1.1',
+  1000: 'normal',
+  900: 'fasted x 1.1',
+  800: 'fasted x 1.2',
+  700: 'fasted x 1.3',
+  600: 'fasted x 1.4',
+  500: 'fasted x 1.5',
+  400: 'fasted x 1.6',
+  300: 'fasted x 1.7',
+  200: 'fasted x 1.8',
+  100: 'fasted x 1.9',
 };
 
 speedUpBtn.addEventListener('click', () => {
   if (cameraParams.currentSpeed > 100) {
     cameraParams.currentSpeed -= 100;
+    cameraSpeedValue.textContent = speedValues[cameraParams.currentSpeed];
+    console.log(cameraSpeedValue.textContent, speedValues[cameraParams.currentSpeed], cameraParams.currentSpeed);
     sceneControls.updateCamera(cameraParams.currentSpeed);
   } else {
     console.log('max speed');
@@ -116,6 +142,8 @@ speedUpBtn.addEventListener('click', () => {
 speedDownBtn.addEventListener('click', () => {
   if (cameraParams.currentSpeed < 2000) {
     cameraParams.currentSpeed += 100;
+    cameraSpeedValue.textContent = speedValues[cameraParams.currentSpeed];
+    console.log(cameraSpeedValue.textContent, speedValues[cameraParams.currentSpeed], cameraParams.currentSpeed);
     sceneControls.updateCamera(cameraParams.currentSpeed);
   } else {
     console.log('lowest speed');
