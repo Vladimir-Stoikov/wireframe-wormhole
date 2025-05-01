@@ -101,8 +101,10 @@ elemsCount.addEventListener('change', e => {
 const speedUpBtn = document.getElementById('camera-speed-up');
 const speedDownBtn = document.getElementById('camera-speed-down');
 const cameraSpeedValue = document.getElementById('camera-speed-value');
+const cameraReverse = document.getElementById('camera-reverse-btn');
 const cameraParams = {
   currentSpeed: 1000,
+  currentReversed: false,
 };
 
 const speedValues = {
@@ -133,7 +135,7 @@ speedUpBtn.addEventListener('click', () => {
     cameraParams.currentSpeed -= 100;
     cameraSpeedValue.textContent = speedValues[cameraParams.currentSpeed];
     console.log(cameraSpeedValue.textContent, speedValues[cameraParams.currentSpeed], cameraParams.currentSpeed);
-    sceneControls.updateCamera(cameraParams.currentSpeed);
+    sceneControls.updateCamera(cameraParams);
   } else {
     console.log('max speed');
   }
@@ -144,8 +146,14 @@ speedDownBtn.addEventListener('click', () => {
     cameraParams.currentSpeed += 100;
     cameraSpeedValue.textContent = speedValues[cameraParams.currentSpeed];
     console.log(cameraSpeedValue.textContent, speedValues[cameraParams.currentSpeed], cameraParams.currentSpeed);
-    sceneControls.updateCamera(cameraParams.currentSpeed);
+    sceneControls.updateCamera(cameraParams);
   } else {
     console.log('lowest speed');
   }
+});
+
+cameraReverse.addEventListener('click', () => {
+  console.log('reverse');
+  cameraParams.currentReversed = !cameraParams.currentReversed;
+  sceneControls.updateCamera(cameraParams);
 });

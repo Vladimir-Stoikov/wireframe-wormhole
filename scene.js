@@ -158,13 +158,19 @@ export function createScene({ width, height } = {}) {
   // CREATE CAMERA
 
   let cameraSpeed = 1000;
+  let isReversed = false;
 
   function createCamera(t) {
     const time = t * 0.1;
     const looptime = 8 * cameraSpeed;
-    const p = (time % looptime) / looptime;
+    let p = (time % looptime) / looptime;
+
+    if (isReversed) p = 1 - p;
+
     const pos = tubeGeo.parameters.path.getPointAt(p);
-    const lookAt = tubeGeo.parameters.path.getPointAt((p + 0.01) % 1);
+
+    const lookAtOffset = isReversed ? -0.01 : 0.01;
+    const lookAt = tubeGeo.parameters.path.getPointAt((p + lookAtOffset + 1) % 1);
     camera.position.copy(pos);
     camera.lookAt(lookAt);
   }
@@ -204,8 +210,10 @@ export function createScene({ width, height } = {}) {
       };
       createElems(elemsParams);
     },
-    updateCamera: newSpeed => {
-      cameraSpeed = newSpeed;
+    updateCamera: ({ currentSpeed, currentReversed }) => {
+      cameraSpeed = currentSpeed;
+      isReversed = currentReversed;
+      console.log(isReversed);
     },
   };
 }
