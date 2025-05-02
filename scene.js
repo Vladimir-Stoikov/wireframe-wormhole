@@ -159,18 +159,24 @@ export function createScene({ width, height } = {}) {
 
   let cameraSpeed = 1000;
   let isReversed = false;
+  let cameraProgress = 0;
 
   function createCamera(t) {
     const time = t * 0.1;
     const looptime = 8 * cameraSpeed;
-    let p = (time % looptime) / looptime;
 
-    if (isReversed) p = 1 - p;
+    cameraProgress = (time % looptime) / looptime;
 
-    const pos = tubeGeo.parameters.path.getPointAt(p);
+    if (isReversed) {
+      cameraProgress = 1 - cameraProgress;
+    }
 
-    const lookAtOffset = isReversed ? -0.01 : 0.01;
-    const lookAt = tubeGeo.parameters.path.getPointAt((p + lookAtOffset + 1) % 1);
+    const pos = tubeGeo.parameters.path.getPointAt(cameraProgress);
+
+    const lookAtProgress = isReversed ? Math.max(0, cameraProgress - 0.01) : (cameraProgress + 0.01) % 1;
+
+    const lookAt = tubeGeo.parameters.path.getPointAt(lookAtProgress);
+
     camera.position.copy(pos);
     camera.lookAt(lookAt);
   }
