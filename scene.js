@@ -159,26 +159,29 @@ export function createScene({ width, height } = {}) {
 
   let cameraSpeed = 1000;
   let isReversed = false;
+  let timeOffset = 0;
+  let lastReverseTime = performance.now();
   let cameraProgress = 0;
 
   function createCamera(t) {
-    const time = t * 0.1;
-    const looptime = 8 * cameraSpeed;
+    const elapsed = (t - lastReverseTime) * (isReversed ? -1 : 1) * 0.1;
+    const totalTime = 8 * cameraSpeed;
 
-    cameraProgress = (time % looptime) / looptime;
+    cameraProgress = (timeOffset + elapsed) / totalTime;
+    const normalizedProgress = ((cameraProgress % 1) + 1) % 1;
 
-    if (isReversed) {
-      cameraProgress = 1 - cameraProgress;
-    }
-
-    const pos = tubeGeo.parameters.path.getPointAt(cameraProgress);
-
-    const lookAtProgress = isReversed ? Math.max(0, cameraProgress - 0.01) : (cameraProgress + 0.01) % 1;
-
+    const pos = tubeGeo.parameters.path.getPointAt(normalizedProgress);
+    const lookAtProgress = (normalizedProgress + (isReversed ? -0.01 : 0.01) + 1) % 1;
     const lookAt = tubeGeo.parameters.path.getPointAt(lookAtProgress);
 
     camera.position.copy(pos);
     camera.lookAt(lookAt);
+  }
+
+  function toggleCameraDirection(t) {
+    timeOffset = cameraProgress * (8 * cameraSpeed);
+    lastReverseTime = t;
+    isReversed = !isReversed;
   }
 
   function animate(t = 0) {
@@ -217,9 +220,20 @@ export function createScene({ width, height } = {}) {
       createElems(elemsParams);
     },
     updateCamera: ({ currentSpeed, currentReversed }) => {
-      cameraSpeed = currentSpeed;
-      isReversed = currentReversed;
-      console.log(isReversed);
+      if (currentSpeed !== undefined) {
+        cameraSpeed = currentSpeed;
+      }
+      if (currentReversed !== undefined && currentReversed !== isReversed) {
+        requestAnimationFrame(t => {
+          toggleCameraDirection(t);
+        });
+      }
+    },
+
+    toggleCameraDirection: () => {
+      requestAnimationFrame(t => {
+        toggleCameraDirection(t);
+      });
     },
   };
 }
