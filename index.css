@@ -58,8 +58,24 @@ main {
   border: 5px solid black;
   border-radius: 20px;
   margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .navbar > ul > li:last-child {
   margin-bottom: 0;
+}
+
+.camera-speed {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+}
+
+.camera-speed span {
+  width: 50%;
 }

@@ -21,7 +21,8 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li>
-            <!-- TUBE SETTINGS NAV SECTION -->
+            <div>
+              <!-- TUBE SETTINGS NAV SECTION -->
             <h2>Tube settings</h2>
             <div>
               <label for="tube-type">Choose a type:</label>
@@ -46,10 +47,12 @@
               <label for="tube-scale">Mesh scale</label>
               <input type="range" id="tube-scale" name="tube-scale" min="1" max="4" />
             </div>
+            </div>
           </li>
           <li>
 
-            <!-- ELEMS SETTINGS NAV SECTION -->
+            <div>
+              <!-- ELEMS SETTINGS NAV SECTION -->
             <h2>Elems settings</h2>
             <div>
               <label for="elems-drop-list">Choose a type:</label>
@@ -72,13 +75,15 @@
               <label for="elems-count">Count</label>
               <input type="range" id="elems-count" name="elems-count" min="100" max="500" step="100" value="300"/>
             </div>
+            </div>
           </li>
           <li>
 
-            <!-- CAMERA SETTINGS NAV SECTION -->
+            <div>
+              <!-- CAMERA SETTINGS NAV SECTION -->
             <h2>Camera settings</h2>
             <p>Speed</p>
-            <div>
+            <div class="camera-speed">
               <button id="camera-speed-down">◃</button>
               <span id="camera-speed-value">normal</span>
               <button id="camera-speed-up">▹</button>
@@ -87,6 +92,7 @@
             <div>
               <label for="position">Position</label>
               <input type="range" id="position" name="position" min="0" max="5" />
+            </div>
             </div>
           </li>
         </ul>
