@@ -162,6 +162,7 @@ export function createScene({ width, height } = {}) {
   let timeOffset = 0;
   let lastReverseTime = performance.now();
   let cameraProgress = 0;
+  let lastSpeed = cameraSpeed;
 
   function createCamera(t) {
     const elapsed = (t - lastReverseTime) * (isReversed ? -1 : 1) * 0.1;
@@ -178,12 +179,17 @@ export function createScene({ width, height } = {}) {
     camera.lookAt(lookAt);
   }
 
-  function toggleCameraDirection(t) {
+  function handleSpeedChange(newSpeed) {
     timeOffset = cameraProgress * (8 * cameraSpeed);
-    lastReverseTime = t;
-    isReversed = !isReversed;
+    lastSpeed = cameraSpeed;
+    cameraSpeed = newSpeed;
   }
 
+  function handleSpeedChange(newSpeed) {
+    timeOffset = cameraProgress * (8 * cameraSpeed);
+    lastSpeed = cameraSpeed;
+    cameraSpeed = newSpeed;
+  }
   function animate(t = 0) {
     requestAnimationFrame(animate);
     createCamera(t);
@@ -221,7 +227,7 @@ export function createScene({ width, height } = {}) {
     },
     updateCamera: ({ currentSpeed, currentReversed }) => {
       if (currentSpeed !== undefined) {
-        cameraSpeed = currentSpeed;
+        handleSpeedChange(currentSpeed);
       }
       if (currentReversed !== undefined && currentReversed !== isReversed) {
         requestAnimationFrame(t => {
