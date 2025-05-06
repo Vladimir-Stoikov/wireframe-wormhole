@@ -84,7 +84,23 @@ export function createScene({ width, height } = {}) {
     }
     tubeGeo = new THREE.TubeGeometry(spline, scale * 80, 0.65, scale * 10, true);
     let tubeMat;
+    const textureLoader = new THREE.TextureLoader();
     switch (type) {
+      case 'texture':
+        const texture = textureLoader.load('./assets/tube-texture.jpg');
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(5, 1); // Настройте повторение текстуры
+
+        tubeMat = new THREE.MeshStandardMaterial({
+          map: texture, // Основная текстура
+          normalMap: textureLoader.load('./assets/tube-texture.jpg'), // Карта нормалей (опционально)
+          roughness: 0.7,
+          metalness: 0.3,
+          side: THREE.DoubleSide,
+        });
+        tubeLines = new THREE.Mesh(tubeGeo, tubeMat);
+        break;
       case 'solid':
         tubeMat = new THREE.MeshStandardMaterial({
           color: color,
