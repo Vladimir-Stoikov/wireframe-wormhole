@@ -90,11 +90,11 @@ export function createScene({ width, height } = {}) {
         const texture = textureLoader.load('./assets/tube-texture.jpg');
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(5, 1); // Настройте повторение текстуры
+        texture.repeat.set(5, 1);
 
         tubeMat = new THREE.MeshStandardMaterial({
-          map: texture, // Основная текстура
-          normalMap: textureLoader.load('./assets/tube-texture.jpg'), // Карта нормалей (опционально)
+          map: texture,
+          normalMap: textureLoader.load('./assets/tube-texture.jpg'),
           roughness: 0.7,
           metalness: 0.3,
           side: THREE.DoubleSide,
@@ -145,8 +145,23 @@ export function createScene({ width, height } = {}) {
       let element;
       let elemMat;
       const elemColor = color === 'random' ? getRandomColor() : color;
-
+      const textureLoader = new THREE.TextureLoader();
       switch (type) {
+        case 'texture':
+          const texture = textureLoader.load('./assets/tube-texture.jpg');
+          texture.wrapS = THREE.RepeatWrapping;
+          texture.wrapT = THREE.RepeatWrapping;
+          texture.repeat.set(5, 1);
+
+          elemMat = new THREE.MeshStandardMaterial({
+            map: texture,
+            normalMap: textureLoader.load('./assets/tube-texture.jpg'),
+            roughness: 0.7,
+            metalness: 0.3,
+            side: THREE.DoubleSide,
+          });
+          element = new THREE.Mesh(boxGeo, elemMat);
+          break;
         case 'solid':
           elemMat = new THREE.MeshStandardMaterial({
             color: elemColor,
