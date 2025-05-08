@@ -60,16 +60,6 @@ export function createScene({ width, height } = {}) {
   };
   createTube(tubeParams);
 
-  // add boxes
-
-  let boxLines = [];
-  let elemsParams = {
-    type: null,
-    color: 'random',
-    count: 150,
-  };
-  createElems(elemsParams);
-
   // CREATE TUBE FUNCTION
 
   function createTube({ type, color, scale }) {
@@ -83,21 +73,22 @@ export function createScene({ width, height } = {}) {
       }
     }
     tubeGeo = new THREE.TubeGeometry(spline, scale * 80, 0.65, scale * 10, true);
+    const texLoader = new THREE.TextureLoader();
     let tubeMat;
-    const textureLoader = new THREE.TextureLoader();
     switch (type) {
       case 'texture':
-        const texture = textureLoader.load('./assets/tube-texture.jpg');
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(5, 1);
+        const metalTex = texLoader.load('./assets/tube-texture.jpg');
+        metalTex.wrapS = THREE.RepeatWrapping;
+        metalTex.wrapT = THREE.RepeatWrapping;
+        metalTex.repeat.set(100, 10);
 
         tubeMat = new THREE.MeshStandardMaterial({
-          map: texture,
-          normalMap: textureLoader.load('./assets/tube-texture.jpg'),
-          roughness: 0.7,
-          metalness: 0.3,
+          map: metalTex,
+          roughness: 1,
+          metalness: 1,
           side: THREE.DoubleSide,
+          flatShading: false,
+          vertexColors: false,
         });
         tubeLines = new THREE.Mesh(tubeGeo, tubeMat);
         break;
@@ -119,6 +110,16 @@ export function createScene({ width, height } = {}) {
     }
     scene.add(tubeLines);
   }
+
+  // add boxes
+
+  let boxLines = [];
+  let elemsParams = {
+    type: null,
+    color: 'random',
+    count: 150,
+  };
+  createElems(elemsParams);
 
   // CREATE BOXES FUNCTION
 
@@ -145,19 +146,17 @@ export function createScene({ width, height } = {}) {
       let element;
       let elemMat;
       const elemColor = color === 'random' ? getRandomColor() : color;
-      const textureLoader = new THREE.TextureLoader();
+      const texLoader = new THREE.TextureLoader();
       switch (type) {
         case 'texture':
-          const texture = textureLoader.load('./assets/tube-texture.jpg');
+          const texture = texLoader.load('./assets/metal-texture.jpg');
           texture.wrapS = THREE.RepeatWrapping;
           texture.wrapT = THREE.RepeatWrapping;
-          texture.repeat.set(5, 1);
-
+          texture.repeat.set(0.1, 0.1);
           elemMat = new THREE.MeshStandardMaterial({
             map: texture,
-            normalMap: textureLoader.load('./assets/tube-texture.jpg'),
-            roughness: 0.7,
-            metalness: 0.3,
+            roughness: 1,
+            metalness: 1,
             side: THREE.DoubleSide,
           });
           element = new THREE.Mesh(boxGeo, elemMat);
@@ -216,11 +215,12 @@ export function createScene({ width, height } = {}) {
     cameraSpeed = newSpeed;
   }
 
-  function handleSpeedChange(newSpeed) {
+  function toggleCameraDirection(t) {
     timeOffset = cameraProgress * (8 * cameraSpeed);
-    lastSpeed = cameraSpeed;
-    cameraSpeed = newSpeed;
+    lastReverseTime = t;
+    isReversed = !isReversed;
   }
+
   function animate(t = 0) {
     requestAnimationFrame(animate);
     createCamera(t);
