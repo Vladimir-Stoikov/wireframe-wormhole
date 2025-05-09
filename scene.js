@@ -76,8 +76,9 @@ export function createScene({ width, height } = {}) {
     const texLoader = new THREE.TextureLoader();
     let tubeMat;
     switch (type) {
-      case 'texture':
-        const metalTex = texLoader.load('./assets/tube-texture.jpg');
+      case 'wood':
+      case 'metal':
+        const metalTex = texLoader.load(`./assets/${type}-texture.jpg`);
         metalTex.wrapS = THREE.RepeatWrapping;
         metalTex.wrapT = THREE.RepeatWrapping;
         metalTex.repeat.set(100, 10);
@@ -148,8 +149,9 @@ export function createScene({ width, height } = {}) {
       const elemColor = color === 'random' ? getRandomColor() : color;
       const texLoader = new THREE.TextureLoader();
       switch (type) {
-        case 'texture':
-          const texture = texLoader.load('./assets/metal-texture.jpg');
+        case 'metal':
+        case 'wood':
+          const texture = texLoader.load(`./assets/${type}-texture.jpg`);
           texture.wrapS = THREE.RepeatWrapping;
           texture.wrapT = THREE.RepeatWrapping;
           texture.repeat.set(0.1, 0.1);
