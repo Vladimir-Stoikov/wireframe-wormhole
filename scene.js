@@ -124,6 +124,8 @@ export function createScene({ width, height } = {}) {
 
   // CREATE BOXES FUNCTION
 
+  const texElemCache = {};
+
   function createElems({ type, color, count }) {
     if (boxLines.length > 0) {
       boxLines.forEach(box => {
@@ -148,15 +150,21 @@ export function createScene({ width, height } = {}) {
       let elemMat;
       const elemColor = color === 'random' ? getRandomColor() : color;
       const texLoader = new THREE.TextureLoader();
+
       switch (type) {
         case 'metal':
         case 'wood':
-          const texture = texLoader.load(`./assets/${type}-texture.jpg`);
-          texture.wrapS = THREE.RepeatWrapping;
-          texture.wrapT = THREE.RepeatWrapping;
-          texture.repeat.set(0.1, 0.1);
+          if (!texElemCache[type]) {
+            texElemCache[type] = texLoader.load(`./assets/${type}-texture.jpg`, texture => {
+              texture.wrapS = THREE.RepeatWrapping;
+              texture.wrapT = THREE.RepeatWrapping;
+              texture.repeat.set(0.25, 0.25);
+              texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            });
+          }
+
           elemMat = new THREE.MeshStandardMaterial({
-            map: texture,
+            map: texElemCache[type],
             roughness: 1,
             metalness: 1,
             side: THREE.DoubleSide,
