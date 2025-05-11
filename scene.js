@@ -90,6 +90,8 @@ export function createScene({ width, height } = {}) {
           side: THREE.DoubleSide,
           flatShading: false,
           vertexColors: false,
+          color: new THREE.Color(color),
+          transparent: true,
         });
         tubeLines = new THREE.Mesh(tubeGeo, tubeMat);
         break;
@@ -168,6 +170,8 @@ export function createScene({ width, height } = {}) {
             roughness: 1,
             metalness: 1,
             side: THREE.DoubleSide,
+            color: new THREE.Color(elemColor),
+            transparent: true,
           });
           element = new THREE.Mesh(boxGeo, elemMat);
           break;
