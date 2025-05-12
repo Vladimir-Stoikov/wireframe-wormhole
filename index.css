@@ -24,6 +24,10 @@ main {
   padding: 3%;
 }
 
+h2 {
+  margin-bottom: 0.2rem;
+}
+
 .canvas {
   display: flex;
   width: 80%;  /* Или 50%, если нужно */

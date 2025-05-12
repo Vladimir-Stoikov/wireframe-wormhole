@@ -121,6 +121,7 @@ export function createScene({ width, height } = {}) {
     type: null,
     color: 'random',
     count: 150,
+    figure: null,
   };
   createElems(elemsParams);
 
@@ -128,7 +129,7 @@ export function createScene({ width, height } = {}) {
 
   const texElemCache = {};
 
-  function createElems({ type, color, count }) {
+  function createElems({ type, color, count, figure }) {
     if (boxLines.length > 0) {
       boxLines.forEach(box => {
         scene.remove(box);
@@ -139,7 +140,15 @@ export function createScene({ width, height } = {}) {
     }
     const numBoxes = count;
     const size = 0.075;
-    const boxGeo = new THREE.BoxGeometry(size, size, size);
+    let baseGeometry;
+    switch (figure) {
+      case 'sphere':
+        baseGeometry = new THREE.SphereGeometry(size, 10, 10);
+        break;
+      case 'square':
+      default:
+        baseGeometry = new THREE.BoxGeometry(size, size, size);
+    }
 
     for (let i = 0; i < numBoxes; i++) {
       const p = (i / numBoxes + Math.random() * 0.1) % 1;
@@ -173,7 +182,7 @@ export function createScene({ width, height } = {}) {
             color: new THREE.Color(elemColor),
             transparent: true,
           });
-          element = new THREE.Mesh(boxGeo, elemMat);
+          element = new THREE.Mesh(baseGeometry, elemMat);
           break;
         case 'solid':
           elemMat = new THREE.MeshStandardMaterial({
@@ -182,11 +191,11 @@ export function createScene({ width, height } = {}) {
             roughness: 0.1,
             side: THREE.DoubleSide,
           });
-          element = new THREE.Mesh(boxGeo, elemMat);
+          element = new THREE.Mesh(baseGeometry, elemMat);
           break;
         case 'mesh':
         default:
-          const edges = new THREE.EdgesGeometry(boxGeo, 0.2);
+          const edges = new THREE.EdgesGeometry(baseGeometry, 0.2);
           elemMat = new THREE.LineBasicMaterial({ color: elemColor });
           element = new THREE.LineSegments(edges, elemMat);
           break;
@@ -261,12 +270,13 @@ export function createScene({ width, height } = {}) {
       };
       createTube(tubeParams);
     },
-    updateElems: ({ type, color, count }) => {
+    updateElems: ({ type, color, count, figure }) => {
       if (!color) color = elemsParams.color;
       elemsParams = {
         type: type,
         color: color,
         count: count,
+        figure: figure,
       };
       createElems(elemsParams);
     },

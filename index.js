@@ -65,6 +65,7 @@ tubeScale.addEventListener('change', e => {
 
 // BOX SETTINGS
 
+const elemsFigure = document.getElementById('elems-figure');
 const elemsDropList = document.getElementById('elems-drop-list');
 const elemsColor = document.getElementById('elems-color');
 const elemsCount = document.getElementById('elems-count');
@@ -73,7 +74,13 @@ let elemsParams = {
   type: null,
   color: null,
   count: 150,
+  figure: null,
 };
+
+elemsFigure.addEventListener('change', e => {
+  elemsParams.figure = e.target.value;
+  sceneControls.updateElems(elemsParams);
+});
 
 elemsDropList.addEventListener('change', e => {
   elemsParams.type = e.target.value;
