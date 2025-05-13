@@ -30,8 +30,8 @@ h2 {
 
 .canvas {
   display: flex;
-  width: 80%;  /* Или 50%, если нужно */
-  height: 100%; /* Или 50% */
+  width: 80%;  
+  height: 100%; 
   border-radius: 20px;
   overflow: hidden;  
 }

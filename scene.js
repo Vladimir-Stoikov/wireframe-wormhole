@@ -114,9 +114,10 @@ export function createScene({ width, height } = {}) {
     scene.add(tubeLines);
   }
 
-  // add boxes
+  // ELEMS SETUP
 
-  let boxLines = [];
+  let elemsArray = [];
+  const texElemCache = {};
   let elemsParams = {
     type: null,
     color: 'random',
@@ -125,33 +126,34 @@ export function createScene({ width, height } = {}) {
   };
   createElems(elemsParams);
 
-  // CREATE BOXES FUNCTION
-
-  const texElemCache = {};
+  // CREATE ELEMS FUNCTION
 
   function createElems({ type, color, count, figure }) {
-    if (boxLines.length > 0) {
-      boxLines.forEach(box => {
+    if (elemsArray.length > 0) {
+      elemsArray.forEach(box => {
         scene.remove(box);
         box.geometry.dispose();
         box.material.dispose();
       });
-      boxLines = [];
+      elemsArray = [];
     }
-    const numBoxes = count;
+    const elemsCount = count;
     const size = 0.075;
     let baseGeometry;
     switch (figure) {
       case 'sphere':
         baseGeometry = new THREE.SphereGeometry(size, 10, 10);
         break;
+      case 'pyramid':
+        baseGeometry = new THREE.ConeGeometry(size * 1.2, size * 2, 4, 1, false);
+        break;
       case 'square':
       default:
         baseGeometry = new THREE.BoxGeometry(size, size, size);
     }
 
-    for (let i = 0; i < numBoxes; i++) {
-      const p = (i / numBoxes + Math.random() * 0.1) % 1;
+    for (let i = 0; i < elemsCount; i++) {
+      const p = (i / elemsCount + Math.random() * 0.1) % 1;
       const pos = tubeGeo.parameters.path.getPointAt(p);
       pos.x += Math.random() - 0.4;
       pos.y += Math.random() - 0.4;
@@ -201,11 +203,11 @@ export function createScene({ width, height } = {}) {
           break;
       }
 
-      boxLines.push(element);
-      boxLines[i].position.copy(pos);
-      boxLines[i].rotation.set(rote.x, rote.y, rote.z);
+      elemsArray.push(element);
+      elemsArray[i].position.copy(pos);
+      elemsArray[i].rotation.set(rote.x, rote.y, rote.z);
     }
-    boxLines.forEach(box => scene.add(box));
+    elemsArray.forEach(box => scene.add(box));
   }
 
   // CREATE CAMERA
@@ -215,7 +217,6 @@ export function createScene({ width, height } = {}) {
   let timeOffset = 0;
   let lastReverseTime = performance.now();
   let cameraProgress = 0;
-  let lastSpeed = cameraSpeed;
 
   function createCamera(t) {
     const elapsed = (t - lastReverseTime) * (isReversed ? -1 : 1) * 0.1;
