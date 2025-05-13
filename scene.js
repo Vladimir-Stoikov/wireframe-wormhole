@@ -217,6 +217,7 @@ export function createScene({ width, height } = {}) {
   let timeOffset = 0;
   let lastReverseTime = performance.now();
   let cameraProgress = 0;
+  let lastSpeed = cameraSpeed;
 
   function createCamera(t) {
     const elapsed = (t - lastReverseTime) * (isReversed ? -1 : 1) * 0.1;
