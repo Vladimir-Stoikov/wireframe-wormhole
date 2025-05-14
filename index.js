@@ -157,3 +157,14 @@ cameraReverse.addEventListener('click', () => {
   cameraParams.currentReversed = !cameraParams.currentReversed;
   sceneControls.updateCamera(cameraParams);
 });
+
+// STARTING POSITIONS
+
+tubeType.value = 'mesh';
+tubeColor.value = 'random';
+tubeScale.value = '3';
+elemsFigure.value = 'square';
+elemsDropList.value = 'mesh';
+elemsColor.value = 'random';
+elemsCount.value = 200;
+cameraSpeedValue.value = 1000;
