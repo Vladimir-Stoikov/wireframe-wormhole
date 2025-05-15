@@ -104,6 +104,7 @@ h2 {
     width: 85vw;
     height: 100vh;
     padding: 20% 0 10%;
+    height: 80%;
   }
 
   .settings-btn {
@@ -126,3 +127,10 @@ h2 {
   }
 }
 
+@media (max-width: 600px) {
+  main {
+    height: 95vh;
+    padding-top: 0;
+    padding-bottom: 3rem;
+  }
+}
