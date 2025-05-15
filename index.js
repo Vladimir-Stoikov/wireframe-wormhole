@@ -1,5 +1,3 @@
-// import { createScene } from './scene.js';
-
 import getRandomColor from './utility/getRandomColor.js';
 
 const canvasSection = document.getElementById('canvas');
@@ -28,6 +26,30 @@ const resizeObserver = new ResizeObserver(entries => {
 });
 
 resizeObserver.observe(canvasSection);
+
+// SETTINGS BTN
+
+let settingsActive = false;
+
+const settingsBtn = document.getElementById('settings-btn');
+const navbar = document.getElementById('navbar');
+
+settingsBtn.addEventListener('click', e => {
+  e.preventDefault();
+  e.stopPropagation();
+  toogleSettings();
+});
+
+function toogleSettings() {
+  settingsActive = !settingsActive;
+  if (settingsActive) {
+    navbar.classList.add('active');
+    settingsBtn.textContent = '❌';
+  } else {
+    navbar.classList.remove('active');
+    settingsBtn.textContent = '⚙️';
+  }
+}
 
 // NAVBAR SETTINGS -----------------
 
