@@ -41,7 +41,7 @@ export function createScene({ width, height } = {}) {
   composer.addPass(bloomPass);
 
   // fog effect
-  scene.fog = new THREE.FogExp2(0x000000, 0.4);
+  scene.fog = new THREE.FogExp2(0x000000, 0.3);
 
   // CAMERA LIGHT
 
