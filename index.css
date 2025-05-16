@@ -25,7 +25,8 @@ main {
 }
 
 h2 {
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.4rem;
+  color: dodgerblue;
 }
 
 .canvas {
@@ -59,7 +60,7 @@ h2 {
   list-style-type: none;
   height: 33.3%;
   width: 100%;
-  border: 5px solid black;
+  border: 5px solid dodgerblue;
   border-radius: 20px;
   margin-bottom: 1rem;
   display: flex;
@@ -125,6 +126,18 @@ h2 {
   .settings-btn:active {
     transform: scale(1.1);
   }
+}
+
+select {
+  border: none;
+  background-color: dodgerblue;
+  border-radius: 1rem;
+  font-family: "Mulish", sans-serif;
+  color: white;
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 0.3rem;
+  padding: 0.1rem 0.3rem;
 }
 
 @media (max-width: 600px) {
