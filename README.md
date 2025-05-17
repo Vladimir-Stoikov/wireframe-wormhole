@@ -19,3 +19,8 @@
 ## tech stack
 
 ES 6, Three.js, WebGL
+
+## Использованный код
+
+Часть кода взята из проекта [flythru-wireframe-wormhole](https://github.com/bobbyroe/flythru-wireframe-wormhole)  
+© 2024 Bobby Roe. Лицензия: [MIT](https://github.com/bobbyroe/flythru-wireframe-wormhole/blob/main/LICENSE).
